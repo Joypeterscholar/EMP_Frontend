@@ -14,6 +14,13 @@ import { Button, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { dispatchSelectedMeshTags } from "../redux/actions/meshActions";
 import { getUserFromLocalStorage } from "../redux/reducers/userReducer";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "./ui/select";
 
 const TagModelForm = ({
 	model,
@@ -368,58 +375,62 @@ const TagModelForm = ({
 									<label className="mb-1 text-sm font-medium">
 										Zone of sample
 									</label>
-									<select
-										name="zone"
+									<Select
 										value={formData.zone}
-										onChange={handleInputChange}
-										className="w-full p-2 border rounded"
+										onValueChange={(value) =>
+											setFormData({ ...formData, zone: value })
+										}
 									>
-										<option value="" disabled>
-											Select zone
-										</option>
-										{[
-											"Zone 1",
-											"Zone 2",
-											"Zone 3",
-											"Zone 4",
-											"Zone 5",
-											"Other",
-										].map((z) => (
-											<option key={z} value={z}>
-												{z}
-											</option>
-										))}
-									</select>
+										<SelectTrigger>
+											<SelectValue placeholder="Select zone" />
+										</SelectTrigger>
+										<SelectContent>
+											{[
+												"Zone 1",
+												"Zone 2",
+												"Zone 3",
+												"Zone 4",
+												"Zone 5",
+												"Other",
+											].map((z) => (
+												<SelectItem key={z} value={z}>
+													{z}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</div>
 
 								<div className="form-control">
 									<label className="mb-1 text-sm font-medium">
 										Sample details
 									</label>
-									<select
-										name="sampleDetails"
+									<Select
 										value={formData.sampleDetails}
-										onChange={handleInputChange}
-										className="w-full p-2 border rounded"
+										onValueChange={(value) =>
+											setFormData({ ...formData, sampleDetails: value })
+										}
 									>
-										<option value="" disabled>
-											Select detail
-										</option>
-										{[
-											"Random",
-											"Routine",
-											"Investigational",
-											"Construction",
-											"Vector",
-											"PEC",
-											"PIC",
-											"Other",
-										].map((o) => (
-											<option key={o} value={o}>
-												{o}
-											</option>
-										))}
-									</select>
+										<SelectTrigger>
+											<SelectValue placeholder="Select detail" />
+										</SelectTrigger>
+										<SelectContent>
+											{[
+												"Random",
+												"Routine",
+												"Investigational",
+												"Construction",
+												"Vector",
+												"PEC",
+												"PIC",
+												"Other",
+											].map((o) => (
+												<SelectItem key={o} value={o}>
+													{o}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</div>
 							</div>
 						) : null}
@@ -440,46 +451,49 @@ const TagModelForm = ({
 						) : null}
 						{tagType === "sample" ? (
 							<div className="form-control mt-5">
-								<select
-									onChange={handleInputChange}
-									name="presence"
+								<label className="mb-1 text-sm font-medium">Result</label>
+								<Select
 									value={formData.presence}
+									onValueChange={(value) =>
+										setFormData({ ...formData, presence: value })
+									}
 									required
-									className="w-full p-2 border rounded"
 								>
-									<option value="" disabled>
-										Result
-									</option>
-									{[
-										{ value: "positive", label: "positive" },
-										{ value: "negative", label: "negative" },
-									].map((item) => (
-										<option key={item.value} value={item.value}>
-											{item.label}
-										</option>
-									))}
-								</select>
+									<SelectTrigger>
+										<SelectValue placeholder="Select result" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="positive">positive</SelectItem>
+										<SelectItem value="negative">negative</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 						) : null}
 						<div className="form-control">
 							<label className="mb-1 text-sm font-medium">Group</label>
-							<select
-								name="group"
+							<Select
 								value={formData.group}
-								onChange={handleInputChange}
-								className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+								onValueChange={(value) =>
+									setFormData({ ...formData, group: value })
+								}
 							>
-								<option value="">
-									{availableGroups.length
-										? "Select group"
-										: "No groups available"}
-								</option>
-								{availableGroups.map((group) => (
-									<option key={group} value={group}>
-										{group}
-									</option>
-								))}
-							</select>
+								<SelectTrigger>
+									<SelectValue
+										placeholder={
+											availableGroups.length
+												? "Select group"
+												: "No groups available"
+										}
+									/>
+								</SelectTrigger>
+								<SelectContent>
+									{availableGroups.map((group) => (
+										<SelectItem key={group} value={group}>
+											{group}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</div>
 						{["sampling", "incident"].includes(formData.type) ? (
 							<FormInput

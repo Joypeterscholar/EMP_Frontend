@@ -65,7 +65,7 @@ const UserProfile = () => {
 
 						{/* Role pill */}
 						<div className="mt-2 mb-5">
-							<span className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-gray-100 text-secondaryAlt text-regular">
+							<span className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-gray-100 text-emp-secondary-alt text-regular">
 								{user.role}
 							</span>
 						</div>
@@ -104,7 +104,7 @@ const UserProfile = () => {
 						{user._id === currentUser._id && currentUser.role !== "tagger" && (
 							<div className="mt-6">
 								<Button
-									className="w-full text-regular font-semibold bg-primary hover:bg-secondaryAlt text-white transition-colors rounded-2xl"
+									className="w-full text-regular font-semibold bg-primary hover:bg-emp-secondary-alt text-white transition-colors rounded-2xl"
 									onClick={() =>
 										navigate(
 											`/${

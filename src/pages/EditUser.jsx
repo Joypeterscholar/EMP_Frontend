@@ -304,7 +304,7 @@ const EditUser = () => {
 								</div>
 								<label className="cursor-pointer">
 									<Button
-										className="w-[206px] text-regular rounded-[20px] bg-gray-200 text-secondaryAlt2 shadow-none"
+										className="w-[206px] text-regular rounded-[20px] bg-gray-200 text-emp-secondary-alt-2 shadow-none"
 										type="button"
 									>
 										{imageName || "Browse Files"}
@@ -323,7 +323,7 @@ const EditUser = () => {
 						{/* Submit Button */}
 						<Button
 							type="submit"
-							className="w-full h-12 text-base font-semibold bg-primary hover:bg-secondaryAlt text-white transition-colors rounded-2xl"
+							className="w-full h-12 text-base font-semibold bg-primary hover:bg-emp-secondary-alt text-white transition-colors rounded-2xl"
 							disabled={isSubmitting}
 							onClick={handleSubmit}
 						>

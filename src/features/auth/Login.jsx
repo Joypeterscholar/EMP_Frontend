@@ -174,7 +174,7 @@ const Login = () => {
 
 						<Button
 							type="submit"
-							className="w-full h-12 text-regular font-semibold bg-primary hover:bg-secondaryAlt text-white transition-colors rounded-2xl"
+							className="w-full h-12 text-regular font-semibold bg-primary hover:bg-emp-secondary-alt text-white transition-colors rounded-2xl"
 							disabled={isSubmitting}
 							onClick={handleSubmit}
 						>

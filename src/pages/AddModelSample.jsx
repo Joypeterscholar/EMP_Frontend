@@ -36,7 +36,7 @@ const AddModelSample = ({ showModal, setShowModal, model_data }) => {
 	const [evidenceName, setEvidenceName] = useState("");
 	const queryClient = useQueryClient();
 	const closeModal = () => {
-		setShowModal(!showModal);
+		setShowModal(false);
 	};
 
 	async function fetchSamples() {
@@ -154,7 +154,7 @@ const AddModelSample = ({ showModal, setShowModal, model_data }) => {
 
 			if (response.data?.status !== "error") {
 				toast.success(`Tag added successfully`);
-				setFormData(formData);
+				setShowModal(false);
 			} else {
 				toast.error(response.data?.message);
 			}

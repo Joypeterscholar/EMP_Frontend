@@ -59,6 +59,7 @@ const EditIncident = ({ showModal, setShowModal, data, fetchData }) => {
         queryClient.invalidateQueries('incidents');
         fetchData();
         toast.success(`Incident added successfully`);
+        setShowModal(false);
       } else {
         toast.error(response.data?.message);
       }
@@ -70,7 +71,7 @@ const EditIncident = ({ showModal, setShowModal, data, fetchData }) => {
     }
   };
   const closeModal = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
   };
   return (
     <>

@@ -51,6 +51,7 @@ const AddSample = ({ showModal, setShowModal, fetchData }) => {
       if (response.data?.status !== 'error') {
         toast.success(`Sample added successfully`);
         fetchData();
+        setShowModal(false);
       } else {
         toast.error(response.data?.message);
       }
@@ -65,7 +66,7 @@ const AddSample = ({ showModal, setShowModal, fetchData }) => {
   };
 
   const closeModal = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
   };
   return (
     <>

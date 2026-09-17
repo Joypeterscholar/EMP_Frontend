@@ -1,37 +1,27 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 
 import "../styles/Login.css";
-import { baseURL, customFetch } from "../utils";
+import { baseURL } from "../utils";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { SubmitBtn } from "../components";
-import png from "../assets/mask.png";
 import { loginUser } from "../redux/actions/userActions";
 import {
 	getAccessTokenFromLocalStorage,
 	getUserFromLocalStorage,
 } from "../redux/reducers/userReducer";
 
-// Import shadcn components
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import { Checkbox } from "../components/ui/checkbox";
-
 const Login = () => {
 	const user = useSelector((state) => state.userState.user);
 	const localUser = getUserFromLocalStorage();
-	const localAccessToken = getAccessTokenFromLocalStorage();
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isLoggedin, setIsLoggedin] = useState(false);
-	const [reRouteUrl, setReRouteUrl] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const currentUser = localUser || user;
@@ -65,177 +55,165 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsSubmitting(true);
-
-		console.log("Login attempt with:", { email, password });
-
 		try {
-			// Try with direct axios call to bypass customFetch issues
 			const response = await axios.post(
 				baseURL + "/api/user/login",
-				{
-					email: email.trim(),
-					password: password.trim(),
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-					timeout: 10000,
-				}
+				{ email: email.trim(), password: password.trim() },
+				{ headers: { "Content-Type": "application/json" }, timeout: 10000 }
 			);
-
-			console.log("Login response:", response.data);
-
 			const userData =
 				response.data.status !== "error" ? response.data : null;
 			if (response.data.status !== "error") {
 				dispatch(loginUser(userData));
-				toast.success("logged in successfully");
+				toast.success("Welcome back!");
 				setIsLoggedin(true);
 			} else {
-				console.log("Login error:", response.data.message);
 				toast.error(`${response.data.message}`);
 			}
 		} catch (err) {
-			console.error("Login catch error:", err);
-			console.error("Error response:", err?.response?.data);
 			const errorMessage =
 				err?.response?.data?.message ||
 				"Wrong login details or Network error";
 			toast.error(errorMessage);
-			return null;
 		} finally {
 			setIsSubmitting(false);
 		}
 	};
 
 	return (
-		<div className="min-h-screen flex">
-			{/* Left side - Hero Image */}
-			{/* <div className="lg:flex lg:w-1/2 text-center relative bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-gray-900/20" />
-        <img 
-          src={png} 
-          alt="background" 
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="relative w-full flex flex-col items-center justify-center p-12 text-white">
-          <h1 className="text-4xl text-black font-bold mb-4">Welcome to Our Platform</h1>
-          <p className="text-lg text-black text-center max-w-md">
-            Secure, efficient, and reliable environmental data management system.
-          </p>
-        </div>
-      </div> */}
+		<div className="flex min-h-screen">
+			{/* Left panel — dark gradient with visual interest */}
+			<div className="relative hidden lg:flex lg:w-[45%] overflow-hidden bg-surface-900">
+				{/* Geometric pattern overlay */}
+				<div className="absolute inset-0 opacity-[0.03]"
+					style={{
+						backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+						backgroundSize: '32px 32px',
+					}}
+				/>
+				{/* Gradient orbs */}
+				<div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-600/20 blur-[120px]" />
+				<div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-brand-800/30 blur-[120px]" />
+				<div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-violet/10 blur-[100px]" />
 
-			{/* Right side - Login Form */}
-			<div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-b from-gray-50 to-white">
-				<div className="w-full max-w-[440px] space-y-8">
-					<div className="flex flex-col items-center space-y-4">
-						<img src={logo} alt="logo" className="h-16 w-auto" />
-						<div className="text-center space-y-2">
-							<h1 className="text-3xl font-bold tracking-tight text-gray-900">
-								Welcome back
-							</h1>
-							<p className="text-sm text-gray-500">
-								Please enter your credentials to access your account
-							</p>
-						</div>
+				{/* Content */}
+				<div className="relative z-10 flex flex-col justify-between p-12 text-white">
+					<div>
+						<img src={logo} alt="EMP" className="h-10 w-auto" />
+					</div>
+					<div>
+						<h2 className="text-4xl font-bold leading-tight tracking-tight">
+							Environmental
+							<br />
+							Mapping
+							<br />
+							<span className="text-brand-400">Platform</span>
+						</h2>
+						<p className="mt-6 max-w-sm text-base leading-relaxed text-white/50">
+							Track, tag, and manage environmental data across your facilities with precision 3D mapping.
+						</p>
+					</div>
+					<div className="flex items-center gap-3 text-xs text-white/30">
+						<div className="h-px flex-1 bg-white/10" />
+						<span>Secure Access</span>
+						<div className="h-px flex-1 bg-white/10" />
+					</div>
+				</div>
+			</div>
+
+			{/* Right panel — login form */}
+			<div className="flex flex-1 items-center justify-center bg-white px-6 py-12">
+				<div className="w-full max-w-[400px]">
+					{/* Mobile logo */}
+					<div className="mb-10 flex items-center gap-3 lg:hidden">
+						<img src={logo} alt="EMP" className="h-10 w-auto" />
 					</div>
 
-					<form className="space-y-6">
-						<div className="space-y-4">
-							<div className="space-y-2">
-								<Label
-									htmlFor="email"
-									className="text-sm font-medium text-gray-700"
-								>
-									Email address
-								</Label>
-								<Input
-									id="email"
-									type="email"
-									placeholder="name@company.com"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									className="h-11"
+					<div className="mb-8">
+						<h1 className="text-2xl font-bold tracking-tight text-surface-900">
+							Welcome back
+						</h1>
+						<p className="mt-2 text-sm text-surface-500">
+							Sign in to your account to continue
+						</p>
+					</div>
+
+					<form onSubmit={handleSubmit} className="space-y-5">
+						<div className="space-y-1.5">
+							<label className="label-text">Email address</label>
+							<input
+								type="email"
+								placeholder="name@company.com"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								className="input-field h-11"
+								required
+							/>
+						</div>
+
+						<div className="space-y-1.5">
+							<label className="label-text">Password</label>
+							<div className="relative">
+								<input
+									type={passwordVisible ? "text" : "password"}
+									placeholder="Enter your password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									className="input-field h-11 pr-11"
 									required
 								/>
-							</div>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="password"
-									className="text-sm font-medium text-gray-700"
+								<button
+									type="button"
+									onClick={() => setPasswordVisible(!passwordVisible)}
+									className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 transition-colors hover:text-surface-600"
 								>
-									Password
-								</Label>
-								<div className="relative">
-									<Input
-										id="password"
-										type={passwordVisible ? "text" : "password"}
-										placeholder="Enter your password"
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
-										className="h-11"
-										required
-									/>
-									<button
-										type="button"
-										onClick={() =>
-											setPasswordVisible(!passwordVisible)
-										}
-										className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-									>
-										{passwordVisible ? (
-											<FaEyeSlash className="h-5 w-5" />
-										) : (
-											<FaEye className="h-5 w-5" />
-										)}
-									</button>
-								</div>
+									{passwordVisible ? (
+										<FaEyeSlash className="h-4 w-4" />
+									) : (
+										<FaEye className="h-4 w-4" />
+									)}
+								</button>
 							</div>
 						</div>
 
 						<div className="flex items-center justify-between">
-							<div className="flex items-center space-x-2">
-								<Checkbox id="remember" className="rounded-sm" />
-								<label
-									htmlFor="remember"
-									className="text-sm text-gray-600 select-none"
-								>
-									Remember me
-								</label>
-							</div>
+							<label className="flex items-center gap-2 cursor-pointer">
+								<input
+									type="checkbox"
+									className="h-4 w-4 rounded border-surface-300 text-brand-600 focus:ring-brand-500"
+								/>
+								<span className="text-sm text-surface-600">Remember me</span>
+							</label>
 						</div>
 
-						<div className="space-y-4">
-							<Button
-								type="submit"
-								className="w-full h-11 text-base font-semibold"
-								disabled={isSubmitting}
-								onClick={handleSubmit}
-							>
-								{isSubmitting ? (
-									<div className="flex items-center justify-center space-x-2">
-										<div className="w-4 h-4 border-2 border-white border-t-transparent cursor-pointer rounded-full animate-spin" />
-										<span className="text-white">Signing in...</span>
-									</div>
-								) : (
-									<span className="text-white">Sign in</span>
-								)}
-							</Button>
-
-							<p className="text-center text-sm text-gray-500">
-								Don't have an account?{" "}
-								<Link
-									to="/register"
-									className="font-medium text-primary hover:text-primary/80 transition-colors"
-								>
-									Create one
-								</Link>
-							</p>
-						</div>
+						<button
+							type="submit"
+							disabled={isSubmitting}
+							className="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl !bg-brand-600 px-5 py-2.5 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:!bg-brand-700 hover:shadow-glow-sm active:scale-[0.98] disabled:opacity-50"
+						>
+							{isSubmitting ? (
+								<div className="flex items-center gap-2">
+									<div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+									<span>Signing in...</span>
+								</div>
+							) : (
+								<div className="flex items-center gap-2">
+									<span>Sign in</span>
+									<FaArrowRight className="h-3.5 w-3.5" />
+								</div>
+							)}
+						</button>
 					</form>
+
+					<p className="mt-8 text-center text-sm text-surface-500">
+						Don't have an account?{" "}
+						<Link
+							to="/register"
+							className="font-semibold text-brand-600 transition-colors hover:text-brand-700"
+						>
+							Create one
+						</Link>
+					</p>
 				</div>
 			</div>
 		</div>

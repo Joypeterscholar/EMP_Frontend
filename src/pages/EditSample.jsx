@@ -59,6 +59,7 @@ const EditSample = ({ showModal, setShowModal, data, fetchData }) => {
         queryClient.invalidateQueries('samples');
         fetchData();
         toast.success(`Sample Updated successfully`);
+        setShowModal(false);
       } else {
         toast.error(response.data?.message);
       }
@@ -70,7 +71,7 @@ const EditSample = ({ showModal, setShowModal, data, fetchData }) => {
     }
   };
   const closeModal = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
   };
   return (
     <>

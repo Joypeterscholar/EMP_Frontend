@@ -153,7 +153,7 @@ const EditLocation = ({ showModal, setShowModal, data, fetchData }) => {
 									<p>JPEG, PNG, up to 2MB</p>
 								</div>
 								<label className="btn">
-									<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-secondaryAlt2 shadow-none">
+									<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-emp-secondary-alt-2 shadow-none">
 										{imageName || "Browse Files"}
 									</Button>
 									<input
@@ -167,7 +167,7 @@ const EditLocation = ({ showModal, setShowModal, data, fetchData }) => {
 							</div>
 						</div>
 						<button
-							className="w-full h-12 text-regular font-semibold bg-primary hover:bg-secondaryAlt text-white transition-colors rounded-2xl"
+							className="w-full h-12 text-regular font-semibold bg-primary hover:bg-emp-secondary-alt text-white transition-colors rounded-2xl"
 							type="submit"
 							disabled={isSubmitting}
 						>

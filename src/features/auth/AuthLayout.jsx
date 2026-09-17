@@ -6,7 +6,7 @@ import React from "react";
 
 const AuthLayout = ({ children }) => {
 	return (
-		<div className="min-h-screen w-screen bg-dark text-white relative overflow-hidden">
+		<div className="min-h-screen w-screen bg-emp-dark text-white relative overflow-hidden">
 			{/* Top-left brand icon */}
 			<div className="absolute top-5 left-5 z-20 flex items-center gap-2 select-none">
 				<img

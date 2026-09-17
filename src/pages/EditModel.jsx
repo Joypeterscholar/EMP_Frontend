@@ -140,7 +140,7 @@ const EditModel = () => {
 							<p>JPEG, PNG</p>
 						</div>
 						<label className="btn">
-							<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-secondaryAlt2 shadow-none">
+							<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-emp-secondary-alt-2 shadow-none">
 								{twoD || "Browse Files"}
 							</Button>
 							<input
@@ -166,7 +166,7 @@ const EditModel = () => {
 							<p>JPEG, PNG, up to 2MB</p>
 						</div>
 						<label className="btn">
-							<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-secondaryAlt2 shadow-none">
+							<Button className=" w-[206px] text-regular rounded-[20px] bg-gray-200 text-emp-secondary-alt-2 shadow-none">
 								{imageName || "Browse Files"}
 							</Button>
 							<input

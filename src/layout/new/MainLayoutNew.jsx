@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 import HeaderNew from "./HeaderNew";
 import SidebarNew from "./SidebarNew";
@@ -31,24 +30,23 @@ const MainLayoutNew = () => {
 	if (!showShell) return <Outlet />;
 
 	return (
-		<div className="min-h-screen bg-grey">
+		<div className="flex min-h-screen bg-surface-50">
 			<SidebarNew onCollapse={(c) => setSidebarCollapsed(c)} />
 			<div
-				className={`relative transition-all duration-200 ${
-					sidebarCollapsed ? "ml-[80px]" : "ml-[200px]"
-				}`}
+				className={`relative flex-1 transition-all duration-300 ease-out ${
+					sidebarCollapsed ? "ml-[76px]" : "ml-[240px]"
+				} max-lg:ml-0`}
 			>
-				<HeaderNew />
-				<main className="min-h-[calc(100vh-80px)] bg-lighterGrey">
-					<div className="w-full">
-						<Outlet />
-					</div>
+				<HeaderNew
+					sidebarCollapsed={sidebarCollapsed}
+					onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+				/>
+				<main className="min-h-[calc(100vh-64px)] px-4 sm:px-6 lg:px-8 py-6">
+					<Outlet />
 				</main>
 			</div>
 		</div>
 	);
 };
-
-MainLayoutNew.propTypes = {};
 
 export default MainLayoutNew;

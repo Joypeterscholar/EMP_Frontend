@@ -51,6 +51,7 @@ const AddIncident = ({ showModal, setShowModal, fetchData }) => {
       if (response.data?.status !== 'error') {
         toast.success(`Incident added successfully`);
         fetchData();
+        setShowModal(false);
       } else {
         toast.error(response.data?.message);
       }
@@ -70,7 +71,7 @@ const AddIncident = ({ showModal, setShowModal, fetchData }) => {
   };
 
   const closeModal = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
   };
   return (
     <>

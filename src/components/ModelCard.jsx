@@ -1,8 +1,4 @@
-// components/ModelCard.jsx
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { List, Shield, Edit, ChevronUp, Eye } from "lucide-react";
-import WebIcon from "./custom/WebIcons";
+import { Eye, Edit, Trash2, ChevronDown, Tag, Shield, List } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import {
 	DropdownMenu,
@@ -24,17 +20,18 @@ export const ModelCard = ({
 	userRole,
 	isChecked = false,
 }) => {
-	const { _id, coverPicture, modelName, file } = model;
-
+	const { _id, coverPicture, modelName, file, tags } = model;
 	const user = useSelector((state) => state.userState.user);
 	const localUser = getUserFromLocalStorage();
 	const currentUser = localUser || user;
 	const navigate = useNavigate();
 
+	const tagCount = (tags || []).length;
+	const coverUrl = getRealFileUrl(coverPicture || "");
+
 	return (
-		<Card
+		<div
 			onClick={(e) => {
-				// In delete mode, suppress navigation from card clicks
 				if (deleteModel) {
 					e.preventDefault();
 					e.stopPropagation();
@@ -42,142 +39,129 @@ export const ModelCard = ({
 				}
 				navigate(`/view-model/${_id}`);
 			}}
-			className="group w-[356px] h-auto max-md:w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-lg cursor-pointer"
+			className={`group relative overflow-hidden rounded-2xl border bg-white transition-all duration-300 cursor-pointer ${
+				deleteModel
+					? isChecked
+						? "border-brand-400 ring-2 ring-brand-100 shadow-glow-sm"
+						: "border-surface-200 hover:border-brand-200"
+					: "border-surface-200/60 hover:shadow-elevated hover:border-brand-200/50 hover:-translate-y-0.5"
+			}`}
 		>
-			{/* Image Container with improved styling */}
-			<div className="relative w-[332px] h-[180px] mx-auto mt-4 overflow-hidden rounded-[12px]">
-				{/* Eye indicator to show card is clickable */}
-				<div className="absolute left-3 top-3 z-10 pointer-events-none">
-					<div className="inline-flex items-center gap- 1 rounded-full bg-black/50 text-white px-2 py-1 text-[11px]">
-						<Eye className="h-3.5 w-3.5" />
-						<span>View</span>
-					</div>
-				</div>
-				<div
-					className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-					style={{
-						backgroundImage: `url("${
-							getRealFileUrl(coverPicture || "") ||
-							"https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-3_rxtqvi.jpg"
-						}")`,
-					}}
+			{/* Image */}
+			<div className="relative h-44 overflow-hidden">
+				<img
+					src={
+						coverUrl ||
+						"https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-3_rxtqvi.jpg"
+					}
+					alt={modelName}
+					className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 				/>
+				{/* Gradient overlay */}
+				<div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-				{/* Delete Mode Checkbox */}
+				{/* Delete checkbox */}
 				{deleteModel && (
 					<div className="absolute right-3 top-3 z-10">
 						<input
-							id={_id}
 							checked={isChecked}
-							onClick={(e) => {
-								e.stopPropagation();
-							}}
+							onClick={(e) => e.stopPropagation()}
 							onChange={(e) => {
 								e.stopPropagation();
 								onCheck(_id, e);
 							}}
 							type="checkbox"
-							className="h-5 w-5 rounded-md border-2 border-white bg-white/20 backdrop-blur-sm accent-primary"
+							className="h-5 w-5 rounded-lg border-2 border-white bg-white/20 backdrop-blur-sm checked:bg-brand-600"
 						/>
 					</div>
 				)}
 
-				{/* Model Name moved outside per new layout */}
+				{/* Tag count badge */}
+				<div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+					<Tag className="h-3 w-3" />
+					{tagCount} {tagCount === 1 ? "tag" : "tags"}
+				</div>
 			</div>
 
-			{/* Content Container */}
-			<div className="space-y-4 p-4" onClick={(e) => e.stopPropagation()}>
-				{/* Top Row: Model Name and Action Icons */}
-				<div className="flex items-center justify-between">
-					<h3 className="heading-medium font-semibold text-[#1F1F1F] truncate pr-2">
+			{/* Content */}
+			<div className="p-4">
+				<div className="flex items-start justify-between gap-2">
+					<h3 className="text-base font-semibold text-surface-900 truncate">
 						{modelName}
 					</h3>
-					<div className="flex items-center">
-						<Button
-							variant="ghost"
-							size="icon"
-							className="hover:bg-slate-100"
+					<div className="flex items-center gap-0.5 flex-shrink-0">
+						<button
 							onClick={(e) => {
 								e.stopPropagation();
 								navigate(`/view-model/${_id}`);
 							}}
+							className="flex h-8 w-8 items-center justify-center rounded-lg text-surface-400 transition-colors hover:bg-surface-50 hover:text-brand-600"
 						>
-							<Eye className="h-6 w-6 text-primary" />
-						</Button>
-						{["admin", "superAdmin"].includes(currentUser.role) ? (
+							<Eye className="h-4 w-4" />
+						</button>
+						{["admin", "superAdmin"].includes(currentUser.role) && (
 							<>
-								<Button
-									variant="ghost"
-									size="icon"
+								<button
 									onClick={(e) => {
 										e.stopPropagation();
 										onEdit(_id);
 									}}
-									className="hover:bg-slate-100"
+									className="flex h-8 w-8 items-center justify-center rounded-lg text-surface-400 transition-colors hover:bg-surface-50 hover:text-surface-700"
 								>
 									<Edit className="h-4 w-4" />
-								</Button>
-								<Button
-									variant="ghost"
-									size="icon"
+								</button>
+								<button
 									onClick={(e) => {
 										e.stopPropagation();
 										onDelete(_id);
-										deleteFromDb(getRealFileUrl(file)).then(
-											console.log
-										);
+										deleteFromDb(getRealFileUrl(file)).then(console.log);
 									}}
-									className="hover:bg-slate-100"
+									className="flex h-8 w-8 items-center justify-center rounded-lg text-surface-400 transition-colors hover:bg-red-50 hover:text-accent-rose"
 								>
-									<WebIcon icon="Trash" className="w-4 h-4" />
-								</Button>
+									<Trash2 className="h-4 w-4" />
+								</button>
 							</>
-						) : null}
+						)}
 					</div>
 				</div>
 
-				{/* Bottom Row: Tag Count and View Button */}
-				<div className="flex items-center justify-between">
-					<span className="text-bold text-primary font-normal">
-						{(model?.tags || []).length} Tags
-					</span>
+				{/* Actions */}
+				<div className="mt-3 flex items-center gap-2">
 					<DropdownMenu>
-						<DropdownMenuTrigger>
-							<div className="flex items-center justify-center w-[207px] h-[48px] px-6 border-2 rounded-[20px] border-secondaryAlt2 text-secondaryAlt2 gap-2">
-								<span className=" text-bold font-semibold">
-									View Tag
-								</span>
-								<ChevronUp className="h-4 w-4 text-secondaryAlt2 -rotate-180" />
-							</div>
+						<DropdownMenuTrigger asChild>
+							<button
+								onClick={(e) => e.stopPropagation()}
+								className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-surface-200 bg-surface-50 px-4 py-2.5 text-sm font-medium text-surface-700 transition-all hover:bg-surface-100 hover:border-surface-300"
+							>
+								<span>View Tags</span>
+								<ChevronDown className="h-3.5 w-3.5" />
+							</button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="end"
-							className="w-[200px] z-50 bg-white shadow-lg"
-						>
+						<DropdownMenuContent align="end" className="w-48">
 							<DropdownMenuItem asChild>
 								<Link
 									to={`/view-model/${_id}?tagType=sample`}
 									onClick={(e) => e.stopPropagation()}
-									className="flex items-center gap-2 cursor-pointer hover:bg-[#021431] hover:text-white transition-colors"
+									className="flex items-center gap-2.5"
 								>
-									<List className="h-4 w-4" />
-									Sample
+									<List className="h-4 w-4 text-brand-500" />
+									Samples
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem asChild>
 								<Link
 									to={`/view-model/${_id}?tagType=incident`}
 									onClick={(e) => e.stopPropagation()}
-									className="flex items-center gap-2 cursor-pointer hover:bg-[#021431] hover:text-white transition-colors"
+									className="flex items-center gap-2.5"
 								>
-									<Shield className="h-4 w-4" />
-									Incident
+									<Shield className="h-4 w-4 text-accent-amber" />
+									Incidents
 								</Link>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
 			</div>
-		</Card>
+		</div>
 	);
 };

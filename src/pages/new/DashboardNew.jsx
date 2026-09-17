@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { customFetch, formatDate, formatTime } from "../../utils";
 import { toast } from "react-toastify";
 import DashboardOverview from "./DashboardOverview";
 import { FullDashboard } from "../../components";
 import TanstackTable from "../../components/TanstackTable";
-import WebIcon from "../../components/custom/WebIcons";
 import SearchInput from "../../components/ui/search-input";
+import { FaEllipsisV } from "react-icons/fa";
 
 const url = "/user/dashboard";
 
@@ -15,30 +15,13 @@ function OptionsDropdown({ row, navigate }) {
 
 	const handleViewModel = (e) => {
 		e.preventDefault();
-		e.stopPropagation(); // Prevent event from bubbling to table row
+		e.stopPropagation();
 		setIsOpen(false);
-
-		// Debug: Check row structure
-		if (!row) {
+		const _id = row?._id;
+		if (!_id) {
 			toast.error("Row data is missing");
 			return;
 		}
-
-		const _id = row._id;
-		if (!_id) {
-			toast.error(
-				`Unable to open model: ID not found. Row keys: ${Object.keys(
-					row
-				).join(", ")}`
-			);
-			return;
-		}
-
-		if (typeof _id !== "string") {
-			toast.error(`Invalid ID type: ${typeof _id}`);
-			return;
-		}
-
 		navigate(`/view-model/${_id}`);
 	};
 
@@ -49,31 +32,22 @@ function OptionsDropdown({ row, navigate }) {
 					e.stopPropagation();
 					setIsOpen(!isOpen);
 				}}
-				className="p-1 hover:bg-gray-100 rounded transition-colors"
+				className="flex h-8 w-8 items-center justify-center rounded-lg text-surface-400 transition-colors hover:bg-surface-100 hover:text-surface-600"
 			>
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-					<circle cx="12" cy="6" r="2" fill="currentColor" />
-					<circle cx="12" cy="12" r="2" fill="currentColor" />
-					<circle cx="12" cy="18" r="2" fill="currentColor" />
-				</svg>
+				<FaEllipsisV className="h-3.5 w-3.5" />
 			</button>
 			{isOpen && (
-				<div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
-					<div className="py-1">
+				<>
+					<div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+					<div className="absolute right-0 top-full z-50 mt-1 w-40 overflow-hidden rounded-xl border border-surface-200 bg-white shadow-elevated animate-scale-in">
 						<button
 							onClick={handleViewModel}
-							className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+							className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-surface-700 transition-colors hover:bg-surface-50"
 						>
 							View Model
 						</button>
 					</div>
-				</div>
-			)}
-			{isOpen && (
-				<div
-					className="fixed inset-0 z-40"
-					onClick={() => setIsOpen(false)}
-				/>
+				</>
 			)}
 		</div>
 	);
@@ -83,8 +57,6 @@ const DashboardNew = () => {
 	const navigate = useNavigate();
 	const [dashboardData, setDashboardData] = useState({});
 	const [search, setSearch] = useState("");
-	const [showDownloadModal] = useState(false);
-	const [downloadSuccess] = useState(true);
 	const [loading, setLoading] = useState(true);
 
 	const fetchData = async () => {
@@ -109,9 +81,6 @@ const DashboardNew = () => {
 		fetchData();
 	}, []);
 
-	// Removed unused dropdown/date filter listeners
-
-	// Use recentModels for activity log (recently uploaded), not recentlyViewedModels (recently viewed)
 	const safeRecentModels = Array.isArray(dashboardData?.recentModels)
 		? dashboardData.recentModels
 		: Array.isArray(dashboardData?.recentlyViewedModels)
@@ -124,7 +93,7 @@ const DashboardNew = () => {
 				accessorKey: "slug",
 				header: () => <span>Facility ID</span>,
 				cell: ({ row }) => (
-					<span className="text-gray-800">
+					<span className="font-medium text-surface-800">
 						{row.original.slug || "N/A"}
 					</span>
 				),
@@ -133,7 +102,7 @@ const DashboardNew = () => {
 				accessorKey: "modelName",
 				header: () => <span>Facility Name</span>,
 				cell: ({ row }) => (
-					<span className="text-gray-800">
+					<span className="text-surface-700">
 						{row.original.modelName || "N/A"}
 					</span>
 				),
@@ -143,7 +112,7 @@ const DashboardNew = () => {
 				accessorFn: (row) => row?.user?.username || "N/A",
 				header: () => <span>Uploaded By</span>,
 				cell: ({ row }) => (
-					<span className="text-gray-800">
+					<span className="text-surface-700">
 						{row.original.user?.username || "N/A"}
 					</span>
 				),
@@ -154,7 +123,7 @@ const DashboardNew = () => {
 					row?.createdAt ? formatTime(row.createdAt) : "N/A",
 				header: () => <span>Time</span>,
 				cell: ({ row }) => (
-					<span className="text-gray-800">
+					<span className="text-surface-500 text-sm">
 						{row.original.createdAt
 							? formatTime(row.original.createdAt)
 							: "N/A"}
@@ -167,7 +136,7 @@ const DashboardNew = () => {
 					row?.createdAt ? formatDate(row.createdAt) : "N/A",
 				header: () => <span>Date</span>,
 				cell: ({ row }) => (
-					<span className="text-gray-800">
+					<span className="text-surface-500 text-sm">
 						{row.original.createdAt
 							? formatDate(row.original.createdAt)
 							: "N/A"}
@@ -193,7 +162,6 @@ const DashboardNew = () => {
 				model?.slug,
 				model?.modelName,
 				model?.location?.name,
-				model?.location?.location,
 				model?.user?.username,
 				formatDate(model?.createdAt),
 				formatTime(model?.createdAt),
@@ -205,39 +173,29 @@ const DashboardNew = () => {
 		});
 	}, [search, safeRecentModels]);
 
-	const handleFilterActivities = (searchValue) => {
-		// Update search state so input displays typed characters
-		setSearch(searchValue);
-	};
-
 	return (
-		<div className="flex flex-col flex-grow w-auto">
+		<div className="space-y-6">
 			<DashboardOverview dashboardData={dashboardData} />
 			<FullDashboard dashboardData={dashboardData} />
-			<div className="bg-white rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl p-4 sm:p-5 md:p-6 mx-2 sm:mx-4 lg:mx-5">
-				<div className="flex items-center justify-between mb-3 md:mb-4 gap-2 sm:gap-3">
-					<h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
-						Recently Uploaded Facility Sections
-					</h2>
-				</div>
 
-				{/* Search and Actions */}
-				<div className="flex flex-col sm:flex-row items-center my-8 justify-end gap-3">
-					<div className="relative flex-1 w-full max-w-full sm:max-w-xl">
-						{/* Search Bar */}
+			{/* Recent Activity Table */}
+			<div className="rounded-2xl border border-surface-200/60 bg-white shadow-soft-xl">
+				<div className="flex items-center justify-between border-b border-surface-100 px-6 py-4">
+					<h2 className="text-base font-semibold text-surface-900">
+						Recent Activity
+					</h2>
+					<div className="w-72 max-sm:w-full">
 						<SearchInput
 							value={search}
-							onChange={(v) => handleFilterActivities(v)}
-							placeholder="Search by name, status, class...."
+							onChange={(v) => setSearch(v)}
+							placeholder="Search facilities..."
 						/>
 					</div>
 				</div>
-
-				{/* Table */}
-				<div className="mt-4 overflow-x-auto border border-gray-200 rounded-xl">
+				<div className="p-4">
 					{loading ? (
-						<div className="w-full py-10 text-center text-gray-500">
-							Loading...
+						<div className="flex items-center justify-center py-16">
+							<div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-200 border-t-brand-600" />
 						</div>
 					) : (
 						<TanstackTable

@@ -50,6 +50,7 @@ let saveCameraPositionAndDirection = {
 
 let discs = [];
 let discsClone = []; // used to reposition tags in 2d view
+let loadedModelMeshNames = []; // stores names of meshes from imported GLB model
 
 // very very wrong but it is already what it is so live with it until a full rewrite
 let modelId = "";
@@ -173,13 +174,35 @@ export function SceneComponent({
 
 		const OverlayButton2D = document.getElementById("2DOverlayButton");
 		OverlayButton2D.addEventListener("click", () => {
+			const camera = scene.activeCamera;
 			if (is2DView) {
 				// Switch to 3D view
-				scene.activeCamera.mode = Camera.PERSPECTIVE_CAMERA;
+				camera.mode = Camera.PERSPECTIVE_CAMERA;
 				is2DView = false;
 			} else {
-				// Switch to 2D view
-				scene.activeCamera.mode = Camera.ORTHOGRAPHIC_CAMERA;
+				// Calculate orthographic frustum from model bounding size
+				const modelMeshes = scene.meshes.filter((m) =>
+					loadedModelMeshNames.includes(m.name)
+				);
+				const meshes = modelMeshes.length > 0 ? modelMeshes : scene.meshes;
+				const min = new Vector3(Infinity, Infinity, Infinity);
+				const max = new Vector3(-Infinity, -Infinity, -Infinity);
+				meshes.forEach((mesh) => {
+					const pos = mesh.getAbsolutePosition();
+					min.x = Math.min(min.x, pos.x);
+					min.y = Math.min(min.y, pos.y);
+					min.z = Math.min(min.z, pos.z);
+					max.x = Math.max(max.x, pos.x);
+					max.y = Math.max(max.y, pos.y);
+					max.z = Math.max(max.z, pos.z);
+				});
+				const halfSize =
+					Vector3.Distance(min, max) / 2 * 1.2;
+				camera.orthoLeft = -halfSize;
+				camera.orthoRight = halfSize;
+				camera.orthoTop = halfSize;
+				camera.orthoBottom = -halfSize;
+				camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
 				is2DView = true;
 			}
 		});
@@ -227,7 +250,7 @@ export function SceneComponent({
 		camera1.speed = 0.6;
 
 		camera1.lowerRadiusLimit = 0;
-		camera1.upperRadiusLimit = 10;
+		camera1.upperRadiusLimit = 500;
 		camera1.attachControl(canvas, true);
 		scene.addCamera(camera1);
 
@@ -964,6 +987,7 @@ async function downloadModel(url, model, scene, fileName) {
 function importGLFileInScene(glFile, scene) {
 	return new Promise((resolve) => {
 		SceneLoader.ImportMeshAsync("", "", glFile, scene).then((result) => {
+			loadedModelMeshNames = result.meshes.map((m) => m.name);
 			result.meshes.forEach((mesh) => {
 				applyOpRecursivelyOnSubmeshes(mesh, () => {
 					applyMeshOptimizations(mesh);
@@ -976,28 +1000,41 @@ function importGLFileInScene(glFile, scene) {
 }
 
 function centerCameras(scene, setSunAngleCamera = false) {
-	const loadedMeshes = scene.meshes;
+	// Filter to only model meshes (exclude helpers like jetBox, arrow, discs, clones)
+	const modelMeshes = scene.meshes.filter((mesh) =>
+		loadedModelMeshNames.includes(mesh.name)
+	);
+	const meshesToUse = modelMeshes.length > 0 ? modelMeshes : scene.meshes;
 
-	// Calculate the bounding box
-	const centroid = Vector3.Zero();
-	let maxExtent = 0;
-	loadedMeshes.forEach((mesh) => {
-		const tagPosition = mesh.getAbsolutePosition();
-		centroid.addInPlace(tagPosition);
-		const distance = Vector3.Distance(tagPosition, centroid);
-		if (distance > maxExtent) {
-			maxExtent = distance;
-		}
+	// Calculate bounding box min/max
+	const min = new Vector3(Infinity, Infinity, Infinity);
+	const max = new Vector3(-Infinity, -Infinity, -Infinity);
+	meshesToUse.forEach((mesh) => {
+		const pos = mesh.getAbsolutePosition();
+		min.x = Math.min(min.x, pos.x);
+		min.y = Math.min(min.y, pos.y);
+		min.z = Math.min(min.z, pos.z);
+		max.x = Math.max(max.x, pos.x);
+		max.y = Math.max(max.y, pos.y);
+		max.z = Math.max(max.z, pos.z);
 	});
-	centroid.scaleInPlace(1 / loadedMeshes.length);
 
+	const centroid = new Vector3(
+		(min.x + max.x) / 2,
+		(min.y + max.y) / 2,
+		(min.z + max.z) / 2
+	);
+	const boundingSize = Vector3.Distance(min, max);
+	const cameraDistance = Math.max(boundingSize * 1.5, 50);
+
+	let camera = scene.getCameraByName("camera1");
 	if (setSunAngleCamera) {
-		let camera = scene.getCameraByName("camera1");
 		camera.position = centroid.clone();
 		camera.rotation.x = Math.PI / 2;
-		camera.position.y += 150;
+		camera.position.y += cameraDistance;
 	} else {
-		scene.getCameraByName("camera1").position = centroid.clone();
+		camera.position = centroid.clone();
+		camera.position.z += cameraDistance;
 	}
 }
 

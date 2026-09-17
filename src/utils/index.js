@@ -3,7 +3,7 @@ import { store } from "../redux/store";
 import { Navigate } from "react-router";
 
 export const baseURL =
-	import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8000";
+	import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:9000";
 const appURL = import.meta.env.VITE_APP_URL;
 const evMappingUrl = `${baseURL}/api`;
 

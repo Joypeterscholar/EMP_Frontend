@@ -1,50 +1,38 @@
-import React from "react";
 import StatsCard from "./stats-card";
-import WebIcon from "../custom/WebIcons";
 
 const OverviewSection = ({
-	// Header content
 	title = "Overview",
 	subtitle = "",
 	welcomeMessage = "",
-
-	// Filter controls
 	filters = [],
-
-	// Stats cards
 	statsCards = [],
-
-	// Layout options
 	className = "",
 }) => {
 	return (
-		<div className={`flex flex-col gap-2 sm:gap-3 md:gap-4 p-1 sm:p-2 md:p-3 ${className}`}>
-			{/* Welcome Section - only show if welcomeMessage is provided */}
+		<div className={`mb-6 ${className}`}>
+			{/* Welcome Section */}
 			{welcomeMessage && (
-				<div className="mb-1 sm:mb-2">
-					<h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-primary mb-1 sm:mb-2">
+				<div className="mb-6">
+					<h1 className="text-2xl font-bold tracking-tight text-surface-900">
 						{title}
 					</h1>
-					<p className="text-sm sm:text-base text-black font-normal">
+					<p className="mt-1 text-sm text-surface-500">
 						{welcomeMessage}
 					</p>
 				</div>
 			)}
 
-			{/* Overview Heading and Filters */}
 			{!welcomeMessage && (
-				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
-					<h2 className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
+				<div className="mb-6">
+					<h2 className="text-2xl font-bold tracking-tight text-surface-900">
 						{title}
 					</h2>
-
-					{/* Filters removed as requested */}
 				</div>
 			)}
 
-			{/* Stats Cards Grid */}
+			{/* Stats Cards */}
 			{statsCards.length > 0 && (
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-3">
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{statsCards.map((card, index) => (
 						<StatsCard key={index} {...card} />
 					))}

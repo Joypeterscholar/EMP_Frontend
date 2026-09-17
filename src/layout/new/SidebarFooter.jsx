@@ -1,28 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUserFromLocalStorage } from "../../redux/reducers/userReducer";
 import { logoutUser } from "../../redux/actions/userActions";
-import WebIcon from "../../components/custom/WebIcons";
+import { FaSignOutAlt, FaUser } from "react-icons/fa";
 
 const SidebarFooter = ({ collapsed }) => {
 	const user = useSelector((s) => s.userState.user);
 	const currentUser = getUserFromLocalStorage() || user;
-	const [activeIcon, setActiveIcon] = useState(null);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
 		dispatch(logoutUser());
 		navigate("/login");
-	};
-
-	const handleIconClick = (iconId) => {
-		if (iconId === "logout") {
-			handleLogout();
-		} else {
-			setActiveIcon(iconId);
-		}
 	};
 
 	const handleProfileClick = () => {
@@ -32,70 +23,51 @@ const SidebarFooter = ({ collapsed }) => {
 		navigate(`/${baseRole}/single-user/${currentUser._id}`);
 	};
 
-	const footerIcons = [
-		// { id: "activity", icon: "activity" },
-		// { id: "settings", icon: "settings" },
-		{ id: "logout", icon: "logout" },
-	];
-
 	return (
-		<div className="px-3 pb-4">
+		<div className={`border-t border-white/[0.06] ${collapsed ? "px-2 py-3" : "px-3 py-4"}`}>
 			<div
-				className="w-12 rounded-[100px] p-2 flex flex-col items-center gap-3"
-				style={{
-					background: "rgba(255, 255, 255, 0.05)",
-					backdropFilter: "blur(20px)",
-					WebkitBackdropFilter: "blur(20px)",
-					border: "1px solid rgba(255, 255, 255, 0.1)",
-					boxShadow:
-						"0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)",
-				}}
+				className={`flex items-center gap-3 ${collapsed ? "flex-col" : ""}`}
 			>
-				{/* Subtle gradient overlay for depth */}
-				<div
-					className="absolute inset-0 opacity-50 rounded-[100px]"
-					style={{
-						background:
-							"linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%)",
-					}}
-				></div>
-
-				{/* Profile Image */}
-				<div
-					className="relative z-10 w-8 h-8 rounded-full overflow-hidden ring-2 ring-white/10 flex-shrink-0 cursor-pointer"
+				{/* Profile */}
+				<button
 					onClick={handleProfileClick}
-					aria-label="View profile"
+					className="group flex items-center gap-3"
 				>
-					<img
-						src={currentUser?.imageUrl || "/img/avatar_male.png"}
-						alt="Profile"
-						className="w-full h-full object-cover"
-					/>
-				</div>
-
-				{/* Action Buttons */}
-				<div className="relative z-10 flex flex-col gap-3">
-					{footerIcons.map((item) => (
-						<button
-							key={item.id}
-							onClick={() => handleIconClick(item.id)}
-							className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 ${
-								activeIcon === item.id
-									? "bg-accentAlt"
-									: "bg-white/5 hover:bg-accentAlt"
-							}`}
-						>
-							<WebIcon
-								icon={item.icon}
-								className={`w-5 h-5 transition-all duration-200 ${
-									activeIcon === item.id
-										? "web-icon-accent"
-										: "web-icon-white hover:web-icon-accent"
-								}`}
+					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white/60 transition-colors group-hover:bg-white/15 group-hover:text-white/80">
+						{currentUser?.imageUrl ? (
+							<img
+								src={currentUser.imageUrl}
+								alt=""
+								className="h-8 w-8 rounded-lg object-cover"
 							/>
-						</button>
-					))}
-				</div>
+						) : (
+							<FaUser className="h-3.5 w-3.5" />
+						)}
+					</div>
+					{!collapsed && (
+						<div className="min-w-0 text-left">
+							<p className="truncate text-xs font-medium text-white/80">
+								{currentUser?.fullname || "User"}
+							</p>
+							<p className="truncate text-[10px] text-white/40">
+								{currentUser?.role || "role"}
+							</p>
+						</div>
+					)}
+				</button>
+
+				{/* Logout */}
+				<button
+					onClick={handleLogout}
+					className={`flex items-center justify-center rounded-lg text-white/30 transition-all hover:bg-white/10 hover:text-accent-rose ${
+						collapsed
+							? "h-8 w-8"
+							: "ml-auto h-8 w-8"
+					}`}
+					title="Logout"
+				>
+					<FaSignOutAlt className="h-3.5 w-3.5" />
+				</button>
 			</div>
 		</div>
 	);

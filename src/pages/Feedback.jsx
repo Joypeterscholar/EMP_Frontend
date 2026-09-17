@@ -486,7 +486,7 @@ const Feedback = () => {
 								handleSubmit(e);
 							}}
 							disabled={isSubmitting}
-							className="rounded-2xl bg-primary text-white h-12 shadow-none hover:bg-secondaryAlt"
+							className="rounded-2xl bg-primary text-white h-12 shadow-none hover:bg-emp-secondary-alt"
 						>
 						{isSubmitting ? "Submitting..." : "Submit Feedback"}
 					</ShButton>
@@ -604,7 +604,7 @@ const Feedback = () => {
 								handleSubmit(e);
 							}}
 							disabled={isSubmitting}
-							className="rounded-2xl bg-primary cursor-pointer text-white h-12 shadow-none hover:bg-secondaryAlt"
+							className="rounded-2xl bg-primary cursor-pointer text-white h-12 shadow-none hover:bg-emp-secondary-alt"
 						>
 							{isSubmitting ? "Submitting..." : "Submit Feedback"}
 						</ShButton>

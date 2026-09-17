@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 import { FaTimes, FaBars } from "react-icons/fa";
 import NavLinksNew from "./NavLinksNew";
-import WebIcon from "../../components/custom/WebIcons";
 import SidebarFooter from "./SidebarFooter";
 import logo from "../../assets/logo.png";
 
 const SidebarNew = ({ onCollapse }) => {
 	const [collapsed, setCollapsed] = useState(false);
+	const [mobileOpen, setMobileOpen] = useState(false);
 
 	const toggle = () => {
 		const c = !collapsed;
@@ -16,60 +15,87 @@ const SidebarNew = ({ onCollapse }) => {
 	};
 
 	return (
-		<div className="fixed left-0 top-0 h-screen z-40">
-			<div
-				className={`relative h-full bg-dark shadow-xl flex flex-col transition-all duration-200 ${
-					collapsed ? "w-[80px]" : "w-[200px]"
-				}`}
+		<>
+			{/* Mobile overlay */}
+			{mobileOpen && (
+				<div
+					className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+					onClick={() => setMobileOpen(false)}
+				/>
+			)}
+
+			{/* Mobile hamburger */}
+			<button
+				onClick={() => setMobileOpen(true)}
+				className="fixed top-4 left-4 z-50 flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-soft-xl border border-surface-200/60 lg:hidden"
 			>
-				<div
-					className={`h-20 relative flex items-center justify-center px-4`}
-				>
-					<div className="flex items-center gap-2">
-						<img
-							src={logo}
-							alt="EMP logo"
-							className={`${
-								collapsed
-									? "h-12 w-12"
-									: "w-32 max-w-full h-auto object-contain"
-							} object-contain`}
-						/>
+				<FaBars className="h-4 w-4 text-surface-600" />
+			</button>
+
+			{/* Sidebar */}
+			<aside
+				className={`fixed left-0 top-0 z-50 flex h-screen flex-col transition-all duration-300 ease-out
+					${collapsed ? "w-[76px]" : "w-[240px]"}
+					max-lg:transition-transform max-lg:duration-300
+					${mobileOpen ? "max-lg:translate-x-0" : "max-lg:-translate-x-full"}
+				`}
+			>
+				{/* Background with subtle gradient */}
+				<div className="absolute inset-0 bg-surface-900" />
+				<div className="absolute inset-0 bg-gradient-to-b from-brand-950/30 via-transparent to-surface-900" />
+
+				{/* Content */}
+				<div className="relative z-10 flex h-full flex-col">
+					{/* Logo area */}
+					<div className={`flex h-16 items-center border-b border-white/[0.06] ${collapsed ? "justify-center px-2" : "px-5"}`}>
+						{collapsed ? (
+							<img
+								src={logo}
+								alt="EMP"
+								className="h-8 w-8 object-contain"
+							/>
+						) : (
+							<div className="flex items-center gap-3">
+								<img
+									src={logo}
+									alt="EMP"
+									className="h-8 w-auto object-contain"
+								/>
+							</div>
+						)}
+						{!collapsed && (
+							<button
+								onClick={toggle}
+								className="ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+							>
+								<FaTimes className="h-3.5 w-3.5" />
+							</button>
+						)}
 					</div>
-					{!collapsed && (
-						<button
-							onClick={toggle}
-							className="absolute right-3 text-white text-sm px-2 py-1 hover:bg-white/20 rounded-md transition-colors"
-						>
-							<FaTimes />
-						</button>
+
+					{/* Collapse toggle (collapsed state) */}
+					{collapsed && (
+						<div className="flex justify-center py-3">
+							<button
+								onClick={toggle}
+								className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+							>
+								<FaBars className="h-3.5 w-3.5" />
+							</button>
+						</div>
 					)}
-				</div>
 
-				{collapsed && (
-					<div className="flex justify-center py-2">
-						<button
-							onClick={toggle}
-							className="text-white hover:bg-white/20 p-2 rounded transition-colors"
-						>
-							<FaBars />
-						</button>
+					{/* Nav links */}
+					<div className={`flex-1 overflow-y-auto overflow-x-hidden ${collapsed ? "px-2 py-2" : "px-3 py-4"}`}>
+						<NavLinksNew collapsed={collapsed} />
 					</div>
-				)}
 
-				<div
-					className={`flex-1 overflow-hidden ${
-						collapsed ? "px-2" : "px-3"
-					}`}
-				>
-					<NavLinksNew collapsed={collapsed} />
+					{/* Footer */}
+					<SidebarFooter collapsed={collapsed} />
 				</div>
-				<SidebarFooter collapsed={collapsed} />
-			</div>
-		</div>
+			</aside>
+		</>
 	);
 };
-
-SidebarNew.propTypes = { onCollapse: PropTypes.func };
 
 export default SidebarNew;
