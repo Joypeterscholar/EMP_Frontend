@@ -12,9 +12,10 @@ const SelectTrigger = React.forwardRef(
 		<SelectPrimitive.Trigger
 			ref={ref}
 			className={cn(
-				"flex h-10 w-full items-center justify-between rounded-xl border border-surface-200 bg-white px-3.5 py-2.5 text-sm text-surface-800 placeholder:text-surface-400 transition-all duration-200 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+				"flex h-10 w-full items-center justify-between rounded-xl border border-surface-200 bg-white px-3.5 py-2.5 text-sm transition-all duration-200 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
 				className
 			)}
+			style={{ color: "#111827" }}
 			{...props}
 		>
 			{children}
@@ -64,8 +65,8 @@ const SelectContent = React.forwardRef(
 		<SelectPrimitive.Portal>
 			<SelectPrimitive.Content
 				ref={ref}
-				className={cn(
-					"relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-xl border border-surface-200 bg-white text-surface-800 shadow-elevated data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+			className={cn(
+				"relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-xl border border-surface-200 bg-white shadow-elevated data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
 					position === "popper" &&
 						"data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
 					className
@@ -108,6 +109,7 @@ const SelectItem = React.forwardRef(
 				className
 			)}
 			{...props}
+			style={{ color: "#111827" }}
 		>
 			<span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
 				<SelectPrimitive.ItemIndicator>

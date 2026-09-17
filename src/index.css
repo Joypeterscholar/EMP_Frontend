@@ -566,8 +566,20 @@ body {
   color: #111827;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, label, td, th, li, a, div, button, input, select, textarea {
+h1, h2, h3, h4, h5, h6, p, span, label, td, th, li, a, div, button, input, select, textarea, option {
   color: inherit;
+}
+
+input, select, textarea {
+  color: #111827;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #6b7280;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #6b7280;
 }
 
 button {
@@ -798,22 +810,10 @@ button {
   padding-bottom: 0.625rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
   animation-duration: 200ms;
-}
-
-.input-field::-moz-placeholder {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
-.input-field::placeholder {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
 }
 
 .input-field:focus {
@@ -828,12 +828,23 @@ button {
   --tw-ring-color: rgb(219 228 255 / var(--tw-ring-opacity, 1));
 }
 
+.input-field {
+  color: #111827;
+}
+
+.input-field::-moz-placeholder {
+  color: #9ca3af;
+}
+
+.input-field::placeholder {
+  color: #9ca3af;
+}
+
 .label-text {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
+  color: #374151;
 }
 
 .pointer-events-none {
@@ -3313,6 +3324,11 @@ button {
   color: rgb(66 99 235 / var(--tw-text-opacity, 1));
 }
 
+.text-brand-800 {
+  --tw-text-opacity: 1;
+  color: rgb(59 91 219 / var(--tw-text-opacity, 1));
+}
+
 .text-current {
   color: currentColor;
 }
@@ -3390,6 +3406,11 @@ button {
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
 }
 
 .text-red-950 {
@@ -3815,16 +3836,6 @@ button {
   font-weight: 500;
 }
 
-.placeholder\:text-surface-400::-moz-placeholder {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
-.placeholder\:text-surface-400::placeholder {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
 .first\:rounded-t-lg:first-child {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
@@ -4169,10 +4180,6 @@ button {
 .focus\:ring-indigo-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity, 1));
-}
-
-.focus\:ring-offset-2:focus {
-  --tw-ring-offset-width: 2px;
 }
 
 .focus-visible\:outline-none:focus-visible {
