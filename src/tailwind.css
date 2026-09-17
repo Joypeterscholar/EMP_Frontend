@@ -9,7 +9,12 @@
   }
 
   body {
-    @apply bg-surface-50 text-surface-800 font-sans;
+    @apply bg-surface-50 font-sans;
+    color: #111827;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, span, label, td, th, li, a, div, button, input, select, textarea {
+    color: inherit;
   }
 
   button {
