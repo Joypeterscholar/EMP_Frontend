@@ -8,16 +8,16 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-brand-100 text-brand-800",
+          "border-transparent bg-brand-600/20 text-brand-400",
         secondary:
-          "border-transparent bg-surface-100 text-surface-700",
+          "border-transparent bg-surface-200 text-surface-700",
         destructive:
-          "border-transparent bg-red-100 text-red-700",
+          "border-transparent bg-red-600/20 text-red-400",
         outline: "border-surface-300",
         success:
-          "border-transparent bg-emerald-100 text-emerald-700",
+          "border-transparent bg-emerald-600/20 text-emerald-400",
         warning:
-          "border-transparent bg-amber-100 text-amber-700",
+          "border-transparent bg-amber-600/20 text-amber-400",
       },
     },
     defaultVariants: {
@@ -28,7 +28,7 @@ const badgeVariants = cva(
 
 function Badge({ className, variant, ...props }) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} style={{ color: "inherit" }} {...props} />
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
   )
 }
 

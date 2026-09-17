@@ -9,20 +9,24 @@
   }
 
   body {
-    @apply bg-surface-50 font-sans;
-    color: #111827;
+    @apply bg-surface-0 font-sans;
+    color: #d4d6e3;
   }
 
   h1, h2, h3, h4, h5, h6, p, span, label, td, th, li, a, div, button, input, select, textarea, option {
     color: inherit;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    color: #f0f1f7;
+  }
+
   input, select, textarea {
-    color: #111827;
+    color: #f0f1f7;
   }
 
   input::placeholder, textarea::placeholder {
-    color: #6b7280;
+    color: #646680;
   }
 
   button {
@@ -30,7 +34,7 @@
   }
 
   ::selection {
-    @apply bg-brand-200 text-brand-900;
+    @apply bg-brand-600 text-white;
   }
 
   ::-webkit-scrollbar {
@@ -53,35 +57,36 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-surface-200 bg-white px-5 py-2.5 text-sm font-semibold text-surface-700 transition-all duration-200 hover:bg-surface-50 hover:border-surface-300 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-surface-300 bg-surface-100 px-5 py-2.5 text-sm font-semibold text-surface-800 transition-all duration-200 hover:bg-surface-200 hover:border-surface-400 active:scale-[0.98];
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-surface-600 transition-all duration-200 hover:bg-surface-100 hover:text-surface-800;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-surface-700 transition-all duration-200 hover:bg-surface-200 hover:text-surface-900;
   }
 
   .btn-danger {
     @apply inline-flex items-center justify-center gap-2 rounded-xl !bg-accent-rose px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-red-600 active:scale-[0.98];
   }
 
-	.input-field {
-		@apply w-full rounded-xl border border-surface-200 bg-white px-4 py-2.5 text-sm transition-all duration-200 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100;
-		color: #111827;
-	}
-	.input-field::placeholder {
-		color: #9ca3af;
-	}
+  .input-field {
+    @apply w-full rounded-xl border border-surface-300 bg-surface-100 px-4 py-2.5 text-sm transition-all duration-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
+    color: #f0f1f7;
+  }
+
+  .input-field::placeholder {
+    color: #646680;
+  }
+
+  .label-text {
+    @apply text-sm font-medium;
+    color: #b0b2c5;
+  }
 
   .card-base {
-    @apply rounded-2xl border border-surface-200/60 bg-white shadow-soft-xl;
+    @apply rounded-2xl border border-surface-200 bg-surface-100 shadow-soft-xl;
   }
 
   .card-interactive {
-    @apply card-base cursor-pointer transition-all duration-300 hover:shadow-elevated hover:border-brand-200/50 hover:-translate-y-0.5;
+    @apply card-base cursor-pointer transition-all duration-300 hover:shadow-elevated hover:border-brand-500/30 hover:-translate-y-0.5;
   }
-
-	.label-text {
-		@apply text-sm font-medium;
-		color: #374151;
-	}
 }

@@ -81,23 +81,20 @@ const Login = () => {
 	};
 
 	return (
-		<div className="flex min-h-screen">
-			{/* Left panel — dark gradient with visual interest */}
-			<div className="relative hidden lg:flex lg:w-[45%] overflow-hidden bg-surface-900">
-				{/* Geometric pattern overlay */}
+		<div className="flex min-h-screen" style={{ backgroundColor: "#0a0a0f" }}>
+			{/* Left panel */}
+			<div className="relative hidden lg:flex lg:w-[45%] overflow-hidden" style={{ backgroundColor: "#0f1117" }}>
 				<div className="absolute inset-0 opacity-[0.03]"
 					style={{
 						backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
 						backgroundSize: '32px 32px',
 					}}
 				/>
-				{/* Gradient orbs */}
-				<div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-600/20 blur-[120px]" />
-				<div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-brand-800/30 blur-[120px]" />
-				<div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-violet/10 blur-[100px]" />
+				<div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-600/10 blur-[120px]" />
+				<div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-brand-800/20 blur-[120px]" />
+				<div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-violet/5 blur-[100px]" />
 
-				{/* Content */}
-				<div className="relative z-10 flex flex-col justify-between p-12 text-white">
+				<div className="relative z-10 flex flex-col justify-between p-12 text-surface-800">
 					<div>
 						<img src={logo} alt="EMP" className="h-10 w-auto" />
 					</div>
@@ -107,24 +104,23 @@ const Login = () => {
 							<br />
 							Mapping
 							<br />
-							<span className="text-brand-400">Platform</span>
+							<span className="text-brand-500">Platform</span>
 						</h2>
-						<p className="mt-6 max-w-sm text-base leading-relaxed text-white/50">
+						<p className="mt-6 max-w-sm text-base leading-relaxed text-surface-600">
 							Track, tag, and manage environmental data across your facilities with precision 3D mapping.
 						</p>
 					</div>
-					<div className="flex items-center gap-3 text-xs text-white/30">
-						<div className="h-px flex-1 bg-white/10" />
+					<div className="flex items-center gap-3 text-xs text-surface-500">
+						<div className="h-px flex-1 bg-surface-300" />
 						<span>Secure Access</span>
-						<div className="h-px flex-1 bg-white/10" />
+						<div className="h-px flex-1 bg-surface-300" />
 					</div>
 				</div>
 			</div>
 
 			{/* Right panel — login form */}
-			<div className="flex flex-1 items-center justify-center bg-white px-6 py-12">
+			<div className="flex flex-1 items-center justify-center px-6 py-12" style={{ backgroundColor: "#0a0a0f" }}>
 				<div className="w-full max-w-[400px]">
-					{/* Mobile logo */}
 					<div className="mb-10 flex items-center gap-3 lg:hidden">
 						<img src={logo} alt="EMP" className="h-10 w-auto" />
 					</div>
@@ -133,7 +129,7 @@ const Login = () => {
 						<h1 className="text-2xl font-bold tracking-tight text-surface-900">
 							Welcome back
 						</h1>
-						<p className="mt-2 text-sm text-surface-500">
+						<p className="mt-2 text-sm text-surface-600">
 							Sign in to your account to continue
 						</p>
 					</div>
@@ -147,6 +143,7 @@ const Login = () => {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className="input-field h-11"
+								style={{ backgroundColor: "#161822", borderColor: "#2a2d3e", color: "#f0f1f7" }}
 								required
 							/>
 						</div>
@@ -160,12 +157,13 @@ const Login = () => {
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
 									className="input-field h-11 pr-11"
+									style={{ backgroundColor: "#161822", borderColor: "#2a2d3e", color: "#f0f1f7" }}
 									required
 								/>
 								<button
 									type="button"
 									onClick={() => setPasswordVisible(!passwordVisible)}
-									className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 transition-colors hover:text-surface-600"
+									className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-500 transition-colors hover:text-surface-700"
 								>
 									{passwordVisible ? (
 										<FaEyeSlash className="h-4 w-4" />
@@ -180,7 +178,7 @@ const Login = () => {
 							<label className="flex items-center gap-2 cursor-pointer">
 								<input
 									type="checkbox"
-									className="h-4 w-4 rounded border-surface-300 text-brand-600 focus:ring-brand-500"
+									className="h-4 w-4 rounded border-surface-400 bg-surface-100 text-brand-600 focus:ring-brand-500"
 								/>
 								<span className="text-sm text-surface-600">Remember me</span>
 							</label>
@@ -205,11 +203,11 @@ const Login = () => {
 						</button>
 					</form>
 
-					<p className="mt-8 text-center text-sm text-surface-500">
+					<p className="mt-8 text-center text-sm text-surface-600">
 						Don't have an account?{" "}
 						<Link
 							to="/register"
-							className="font-semibold text-brand-600 transition-colors hover:text-brand-700"
+							className="font-semibold text-brand-400 transition-colors hover:text-brand-300"
 						>
 							Create one
 						</Link>

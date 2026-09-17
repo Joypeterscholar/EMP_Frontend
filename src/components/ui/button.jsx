@@ -1,11 +1,10 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority"
-
 import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-100 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
@@ -14,12 +13,12 @@ const buttonVariants = cva(
         destructive:
           "!bg-accent-rose text-white shadow-sm hover:bg-red-600",
         outline:
-          "border border-surface-200 bg-white text-surface-700 hover:bg-surface-50 hover:border-surface-300",
+          "border border-surface-300 bg-surface-100 text-surface-800 hover:bg-surface-200 hover:border-surface-400",
         secondary:
-          "bg-surface-100 text-surface-700 hover:bg-surface-200",
+          "bg-surface-200 text-surface-800 hover:bg-surface-300",
         ghost:
-          "text-surface-600 hover:bg-surface-100 hover:text-surface-800",
-        link: "text-brand-600 underline-offset-4 hover:underline",
+          "text-surface-700 hover:bg-surface-200 hover:text-surface-900",
+        link: "text-brand-400 underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-5 py-2",

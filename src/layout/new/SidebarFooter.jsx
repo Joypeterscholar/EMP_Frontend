@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUserFromLocalStorage } from "../../redux/reducers/userReducer";
@@ -24,45 +23,32 @@ const SidebarFooter = ({ collapsed }) => {
 	};
 
 	return (
-		<div className={`border-t border-white/[0.06] ${collapsed ? "px-2 py-3" : "px-3 py-4"}`}>
-			<div
-				className={`flex items-center gap-3 ${collapsed ? "flex-col" : ""}`}
-			>
-				{/* Profile */}
-				<button
-					onClick={handleProfileClick}
-					className="group flex items-center gap-3"
-				>
-					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white/60 transition-colors group-hover:bg-white/15 group-hover:text-white/80">
+		<div className={`border-t border-surface-200 ${collapsed ? "px-2 py-3" : "px-3 py-4"}`}>
+			<div className={`flex items-center gap-3 ${collapsed ? "flex-col" : ""}`}>
+				<button onClick={handleProfileClick} className="group flex items-center gap-3">
+					<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-200 text-surface-600 transition-colors group-hover:bg-surface-300">
 						{currentUser?.imageUrl ? (
-							<img
-								src={currentUser.imageUrl}
-								alt=""
-								className="h-8 w-8 rounded-lg object-cover"
-							/>
+							<img src={currentUser.imageUrl} alt="" className="h-8 w-8 rounded-lg object-cover" />
 						) : (
 							<FaUser className="h-3.5 w-3.5" />
 						)}
 					</div>
 					{!collapsed && (
 						<div className="min-w-0 text-left">
-							<p className="truncate text-xs font-medium text-white/80">
+							<p className="truncate text-xs font-medium text-surface-800">
 								{currentUser?.fullname || "User"}
 							</p>
-							<p className="truncate text-[10px] text-white/40">
+							<p className="truncate text-[10px] text-surface-500">
 								{currentUser?.role || "role"}
 							</p>
 						</div>
 					)}
 				</button>
 
-				{/* Logout */}
 				<button
 					onClick={handleLogout}
-					className={`flex items-center justify-center rounded-lg text-white/30 transition-all hover:bg-white/10 hover:text-accent-rose ${
-						collapsed
-							? "h-8 w-8"
-							: "ml-auto h-8 w-8"
+					className={`flex items-center justify-center rounded-lg text-surface-500 transition-all hover:bg-surface-200 hover:text-accent-rose ${
+						collapsed ? "h-8 w-8" : "ml-auto h-8 w-8"
 					}`}
 					title="Logout"
 				>

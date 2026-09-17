@@ -30,7 +30,7 @@ const MainLayoutNew = () => {
 	if (!showShell) return <Outlet />;
 
 	return (
-		<div className="flex min-h-screen bg-surface-50">
+		<div className="flex min-h-screen bg-surface-0">
 			<SidebarNew onCollapse={(c) => setSidebarCollapsed(c)} />
 			<div
 				className={`relative flex-1 transition-all duration-300 ease-out ${

@@ -110,9 +110,9 @@ const Login = () => {
 		<AuthLayout>
 			<div className="flex items-center justify-center gap-0">
 				{/* Login Card - standalone */}
-				<div className="w-[668px] max-w-full bg-white rounded-[28px] shadow-xl p-8 min-h-[525px] flex flex-col justify-between">
+				<div className="w-[668px] max-w-full rounded-[28px] shadow-xl p-8 min-h-[525px] flex flex-col justify-between" style={{ backgroundColor: "#161822" }}>
 					<div className="space-y-2 text-center mb-8">
-						<h1 className="heading-regular font-extrabold tracking-tight text-primary">
+						<h1 className="heading-regular font-extrabold tracking-tight" style={{ color: "#f0f1f7" }}>
 							Nice to have you here!
 						</h1>
 					</div>
@@ -144,7 +144,8 @@ const Login = () => {
 								<button
 									type="button"
 									onClick={() => setPasswordVisible(!passwordVisible)}
-									className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
+									className="absolute right-4 top-1/2 -translate-y-1/2 hover:text-surface-300 z-10"
+									style={{ color: "#646680" }}
 								>
 									{passwordVisible ? (
 										<FaEyeSlash className="h-5 w-5" />
@@ -153,21 +154,23 @@ const Login = () => {
 									)}
 								</button>
 							</div>
-							<p className="text-xs text-gray-500 mt-1 mb-2">
-								Password must not contain your name and must be 8
-								characters long
-							</p>
+						<p className="text-xs mt-1 mb-2" style={{ color: "#8b8da5" }}>
+							Password must not contain your name and must be 8
+							characters long
+						</p>
 
-							<div className="flex items-center justify-between mt-0">
-								<div className="flex items-center space-x-2">
-									<CustomCheckbox id="remember" />
-									<label
-										htmlFor="remember"
-										className="text-small font-medium text-primary select-none"
-									>
-										Keep me Logged In
-									</label>
-								</div>
+						<div className="flex items-center justify-between mt-0">
+							<div className="flex items-center space-x-2">
+								<CustomCheckbox id="remember" />
+								<label
+									htmlFor="remember"
+									className="text-small font-medium select-none"
+									style={{ color: "#d4d6e3" }}
+								>
+									Keep me Logged In
+								</label>
+							</div>
+						</div>
 								{/* Forgot Password link removed as requested */}
 							</div>
 						</div>

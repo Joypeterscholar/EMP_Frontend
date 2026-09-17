@@ -6,7 +6,7 @@ import React from "react";
 
 const AuthLayout = ({ children }) => {
 	return (
-		<div className="min-h-screen w-screen bg-emp-dark text-white relative overflow-hidden">
+		<div className="min-h-screen w-screen relative overflow-hidden" style={{ backgroundColor: "#0a0a0f", color: "#f0f1f7" }}>
 			{/* Top-left brand icon */}
 			<div className="absolute top-5 left-5 z-20 flex items-center gap-2 select-none">
 				<img
@@ -22,7 +22,7 @@ const AuthLayout = ({ children }) => {
 			</div>
 
 			{/* Bottom copyright */}
-			<div className="absolute bottom-6 w-full text-center text-xs text-gray-300 select-none">
+			<div className="absolute bottom-6 w-full text-center text-xs select-none" style={{ color: "#646680" }}>
 				EMP Development global all Copyrights Reserved © 2025
 			</div>
 		</div>

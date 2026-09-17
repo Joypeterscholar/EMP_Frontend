@@ -76,7 +76,7 @@ const NavLinksNew = ({ collapsed }) => {
 								`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
 									isActive
 										? "bg-brand-600 text-white shadow-glow-sm"
-										: "text-white/40 hover:bg-white/10 hover:text-white/80"
+										: "text-surface-500 hover:bg-surface-200 hover:text-surface-700"
 								}`
 							}
 						>
@@ -101,7 +101,7 @@ const NavLinksNew = ({ collapsed }) => {
 							`group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
 								isActive
 									? "bg-brand-600 text-white shadow-glow-sm"
-									: "text-white/50 hover:bg-white/[0.08] hover:text-white/90"
+									: "text-surface-600 hover:bg-surface-200 hover:text-surface-800"
 							}`
 						}
 					>
