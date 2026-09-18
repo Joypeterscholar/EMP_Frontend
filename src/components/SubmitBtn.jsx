@@ -1,25 +1,20 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { useNavigation } from 'react-router-dom';
 
-// eslint-disable-next-line react/prop-types
 const SubmitBtn = ({ text, isSubmitting }) => {
-
   return (
     <button
       type='submit'
-      className='btn btn-neutral btn-block'
-      disabled={isSubmitting}>
+      className='w-full h-12 text-sm font-semibold text-white transition-colors rounded-2xl'
+      style={{ backgroundColor: "#4f46e5" }}
+      disabled={isSubmitting}
+    >
       {isSubmitting ? (
-        <>
-          <span className='loading loading-spinner'></span>
-          sending...
-        </>
+        <span>sending...</span>
       ) : (
         text || 'submit'
       )}
     </button>
   );
 };
+
 export default SubmitBtn;
