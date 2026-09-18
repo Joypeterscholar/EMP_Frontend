@@ -4,8 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import AuthLayout from "./AuthLayout";
 import axios from "axios";
 
-// Reuse existing app utils and redux actions to preserve behavior
-import { baseURL, customFetch } from "../../utils";
+import { baseURL } from "../../utils";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/actions/userActions";
@@ -14,7 +13,6 @@ import {
 	getUserFromLocalStorage,
 } from "../../redux/reducers/userReducer";
 
-// shadcn components (already present in project)
 import { Button } from "../../components/ui/button";
 import FloatingInput from "../../components/custom/FloatingInput";
 import { CustomCheckbox } from "../../components/custom/CustomCheckbox";
@@ -63,44 +61,30 @@ const Login = () => {
 		e.preventDefault();
 		setIsSubmitting(true);
 
-		console.log("Login attempt with:", { email, password });
-
 		try {
-			// Try with direct axios call to bypass customFetch issues
 			const response = await axios.post(
 				baseURL + "/api/user/login",
+				{ email: email.trim(), password: password.trim() },
 				{
-					email: email.trim(),
-					password: password.trim(),
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
+					headers: { "Content-Type": "application/json" },
 					timeout: 10000,
 				}
 			);
-
-			console.log("Login response:", response.data);
 
 			const userData =
 				response.data.status !== "error" ? response.data : null;
 			if (response.data.status !== "error") {
 				dispatch(loginUser(userData));
-				toast.success("logged in successfully");
+				toast.success("Welcome back!");
 				setIsLoggedin(true);
 			} else {
-				console.log("Login error:", response.data.message);
 				toast.error(`${response.data.message}`);
 			}
 		} catch (err) {
-			console.error("Login catch error:", err);
-			console.error("Error response:", err?.response?.data);
 			const errorMessage =
 				err?.response?.data?.message ||
 				"Wrong login details or Network error";
 			toast.error(errorMessage);
-			return null;
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -109,10 +93,16 @@ const Login = () => {
 	return (
 		<AuthLayout>
 			<div className="flex items-center justify-center gap-0">
-				{/* Login Card - standalone */}
-				<div className="w-[668px] max-w-full rounded-[28px] shadow-xl p-8 min-h-[525px] flex flex-col justify-between" style={{ backgroundColor: "#161822" }}>
+				{/* Login Card */}
+				<div
+					className="w-[668px] max-w-full rounded-[28px] shadow-xl p-8 min-h-[525px] flex flex-col justify-between"
+					style={{ backgroundColor: "#161822" }}
+				>
 					<div className="space-y-2 text-center mb-8">
-						<h1 className="heading-regular font-extrabold tracking-tight" style={{ color: "#f0f1f7" }}>
+						<h1
+							className="heading-regular font-extrabold tracking-tight"
+							style={{ color: "#f0f1f7" }}
+						>
 							Nice to have you here!
 						</h1>
 					</div>
@@ -144,7 +134,7 @@ const Login = () => {
 								<button
 									type="button"
 									onClick={() => setPasswordVisible(!passwordVisible)}
-									className="absolute right-4 top-1/2 -translate-y-1/2 hover:text-surface-300 z-10"
+									className="absolute right-4 top-1/2 -translate-y-1/2 z-10"
 									style={{ color: "#646680" }}
 								>
 									{passwordVisible ? (
@@ -154,50 +144,45 @@ const Login = () => {
 									)}
 								</button>
 							</div>
-						<p className="text-xs mt-1 mb-2" style={{ color: "#8b8da5" }}>
-							Password must not contain your name and must be 8
-							characters long
-						</p>
 
-						<div className="flex items-center justify-between mt-0">
-							<div className="flex items-center space-x-2">
-								<CustomCheckbox id="remember" />
-								<label
-									htmlFor="remember"
-									className="text-small font-medium select-none"
-									style={{ color: "#d4d6e3" }}
-								>
-									Keep me Logged In
-								</label>
-							</div>
-						</div>
-								{/* Forgot Password link removed as requested */}
+							<p className="text-xs mt-1 mb-2" style={{ color: "#8b8da5" }}>
+								Password must not contain your name and must be 8 characters long
+							</p>
+
+							<div className="flex items-center justify-between mt-0">
+								<div className="flex items-center space-x-2">
+									<CustomCheckbox id="remember" />
+									<label
+										htmlFor="remember"
+										className="text-small font-medium select-none"
+										style={{ color: "#d4d6e3" }}
+									>
+										Keep me Logged In
+									</label>
+								</div>
 							</div>
 						</div>
 
 						<Button
 							type="submit"
-							className="w-full h-12 text-regular font-semibold bg-primary hover:bg-emp-secondary-alt text-white transition-colors rounded-2xl"
+							className="w-full h-12 font-semibold text-white transition-colors rounded-2xl"
+							style={{ backgroundColor: "#4f46e5" }}
 							disabled={isSubmitting}
 							onClick={handleSubmit}
 						>
 							{isSubmitting ? (
 								<div className="flex items-center justify-center space-x-2">
 									<div className="w-4 h-4 border-2 border-white border-t-transparent cursor-pointer rounded-full animate-spin" />
-									<span className="text-regular font-semibold text-white">
-										Signing in...
-									</span>
+									<span className="font-semibold text-white">Signing in...</span>
 								</div>
 							) : (
-								<span className="text-regular font-semibold text-white">
-									Login
-								</span>
+								<span className="font-semibold text-white">Login</span>
 							)}
 						</Button>
 					</form>
 				</div>
 
-				{/* Illustration Card - side by side with login card */}
+				{/* Illustration Card */}
 				<div className="hidden md:block">
 					<IllustrationCarousel />
 				</div>
