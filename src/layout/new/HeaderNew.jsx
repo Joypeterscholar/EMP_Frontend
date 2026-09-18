@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getUserFromLocalStorage } from "../../redux/reducers/userReducer";
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaBars } from "react-icons/fa";
 
 const HeaderNew = ({ sidebarCollapsed, onToggleSidebar }) => {
 	const user = useSelector((s) => s.userState.user);
